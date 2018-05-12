@@ -1,7 +1,7 @@
 from utils import *
 import numpy as np
 import matplotlib.image as mpimg
-import matplotlib.pyplot as pplt
+# import matplotlib.pyplot as pplt
 
 from steering_angle_predictor import SteeringAnglePredictor
 
