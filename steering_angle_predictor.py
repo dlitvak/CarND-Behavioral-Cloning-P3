@@ -4,18 +4,19 @@ from keras.models import load_model
 import numpy as np
 
 class SteeringAnglePredictor:
-    def __init__(self, img_shape=(160,320,3), model_file="nvidianet_model.h5", batch_size=128):
+    def __init__(self, img_shape=(160,320,3), model_file="nvidianet_model.h5", batch_size=128, epochs=5):
         net = NvidiaNet()
         self.nnModel = net.network(img_shape=img_shape)
         self.modelLoaded = False
         self.modelFile = model_file
         self.batchSize = batch_size
+        self.epochs = epochs
 
     def train(self, X, y, overwriteModel=True):
         if not overwriteModel:
             return
 
-        history = self.nnModel.fit(X, y, epochs=5, validation_split=0.2, batch_size=self.batchSize, shuffle=True)
+        history = self.nnModel.fit(X, y, epochs=self.epochs, validation_split=0.2, batch_size=self.batchSize, shuffle=True)
 
         self.nnModel.save(filepath=self.modelFile)
         self.modelLoaded = True
