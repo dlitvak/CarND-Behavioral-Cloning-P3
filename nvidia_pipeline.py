@@ -42,6 +42,4 @@ class NvidiaNet:
         #Linear Regression Layer
         self.model.add(Dense(1, kernel_initializer="normal", activation="linear"))
 
-        self.model.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
-        
         return self.model

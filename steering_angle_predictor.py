@@ -6,7 +6,8 @@ import numpy as np
 
 class SteeringAnglePredictor:
     def __init__(self, img_shape=(160,320,3), model_file="nvidianet_model.h5", batch_size=128, epochs=5):
-        net = NvidiaNet()
+        # net = NvidiaNet()
+        net = LeNet()
         self.nnModel = net.network(img_shape=img_shape)
         self.modelLoaded = False
         self.modelFile = model_file
@@ -14,12 +15,10 @@ class SteeringAnglePredictor:
         self.epochs = epochs
 
     def train(self, X, y, overwriteModel=True):
-        if not overwriteModel:
-            return
-
+        self.nnModel.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
         history = self.nnModel.fit(X, y, epochs=self.epochs, validation_split=0.2, batch_size=self.batchSize, shuffle=True)
 
-        self.nnModel.save(filepath=self.modelFile)
+        self.nnModel.save(filepath=self.modelFile, overwrite=overwriteModel)
         self.modelLoaded = True
         return history
 

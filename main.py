@@ -24,8 +24,8 @@ for row in data:
     y.append(steering)
 
 X, y = np.array(X), np.array(y)
-sap = SteeringAnglePredictor(img_shape=X.shape[1:], model_file="nvidianet_model.h5", epochs=5)
-sap.train(X, y, overwriteModel=True)
+sap = SteeringAnglePredictor(img_shape=X.shape[1:], model_file="lenet.h5", epochs=5)
+sap.train(X, y, overwriteModel=False)
 
 sap.test(X, y)
 
