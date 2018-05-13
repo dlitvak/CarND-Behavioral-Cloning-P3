@@ -1,4 +1,5 @@
 from nvidia_pipeline import NvidiaNet
+from lenet import LeNet
 from keras.models import load_model
 
 import numpy as np
