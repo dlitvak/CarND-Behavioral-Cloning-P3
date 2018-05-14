@@ -1,8 +1,11 @@
 from nvidia_pipeline import NvidiaNet
 from lenet import LeNet
 from keras.models import load_model
-
+from keras.utils import Sequence
+import matplotlib.image as mpimg
+from sklearn.utils import shuffle
 import numpy as np
+import math as m
 
 class SteeringAnglePredictor:
     def __init__(self, img_shape=(160,320,3), model_file="nvidianet_model.h5", batch_size=128, epochs=5):
@@ -14,9 +17,31 @@ class SteeringAnglePredictor:
         self.batchSize = batch_size
         self.epochs = epochs
 
+    class DataSequence(Sequence):
+        def __init__(self, x_set, y_set, batch_size):
+            self.x, self.y = x_set, y_set
+            self.batch_size = batch_size
+
+        def __len__(self):
+            return int(np.ceil(len(self.x) / float(self.batch_size)))
+
+        def __getitem__(self, idx):
+            batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
+            batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
+
+            return np.array([mpimg.imread(file_name) for file_name in batch_x]), \
+                np.array(batch_y)
+
     def train(self, X, y, overwriteModel=True):
+        X, y = shuffle(X, y)
+        valid_len = m.ceil(0.2*len(X))
+        X_valid, y_valid = X[0:valid_len], y[0:valid_len]
+        X_train, y_train = X[valid_len:], y[valid_len:]
+
         self.nnModel.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
-        history = self.nnModel.fit(X, y, epochs=self.epochs, validation_split=0.2, batch_size=self.batchSize, shuffle=True)
+        history = self.nnModel.fit_generator(generator=self.DataSequence(X_train, y_train, self.batchSize) ,
+                                             epochs=self.epochs, validation_data=self.DataSequence(X_valid, y_valid, self.batchSize),
+                                             shuffle=True, verbose=2)
 
         self.nnModel.save(filepath=self.modelFile, overwrite=overwriteModel)
         self.modelLoaded = True

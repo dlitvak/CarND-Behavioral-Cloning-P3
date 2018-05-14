@@ -15,18 +15,20 @@ STEER_STEP = 0.02
 data = readFile(dir=DIR, csv_file=CSV_FILE, fieldNames=("center","steering"))
 # print (data)  #fieldNames=("center","left","right","steering")
 X, y =  [], []
+imread = None
 for row in data:
     centerImgUrl = row[0]
-    imread = mpimg.imread(DIR + centerImgUrl, format="RGB")
-    X.append(imread)
+    if None == imread:
+        imread = mpimg.imread(DIR + centerImgUrl, format="RGB")
+    X.append(DIR + centerImgUrl)
 
     steering = row[1]
     y.append(steering)
 
 X, y = np.array(X), np.array(y)
-sap = SteeringAnglePredictor(img_shape=X.shape[1:], model_file="lenet.h5", epochs=5)
-sap.train(X, y, overwriteModel=False)
+sap = SteeringAnglePredictor(img_shape=imread.shape, model_file="lenet.h5", epochs=5)
+sap.train(X, y, overwriteModel=True)
 
-sap.test(X, y)
+# sap.test(X, y)
 
 
