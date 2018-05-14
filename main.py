@@ -6,10 +6,11 @@ import matplotlib.image as mpimg
 from steering_angle_predictor import SteeringAnglePredictor
 
 
-DIR = "data/"
+DIR = "col_data2/"
 CSV_FILE = "driving_log.csv"
 
 BATCH_SIZE = 64
+EPOCHS = 15
 
 data = readFile(dir=DIR, csv_file=CSV_FILE, fieldNames=("center","steering"))
 # print (data)  #fieldNames=("center","left","right","steering")
@@ -23,8 +24,8 @@ for row in data:
     y.append(steering)
 
 X, y = np.array(X), np.array(y)
-sap = SteeringAnglePredictor(img_shape=X.shape[1:], model_file="lenet.h5", epochs=5, batch_size=BATCH_SIZE)
-sap.train(X, y, overwriteModel=True)
+sap = SteeringAnglePredictor(img_shape=X.shape[1:], model_file="lenet2.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet.h5")
+sap.train(X, y, overwrite_model=True)
 
 sap.test(X[:300], y[:300])
 
