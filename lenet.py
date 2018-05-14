@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Flatten, Lambda
+from keras.layers import Dense, Activation, Flatten, Lambda, Dropout
 from keras.layers.pooling import MaxPool2D
 from keras.layers.convolutional import Convolution2D
 
@@ -37,8 +37,12 @@ class LeNet:
         self.model.add(Dense(400))
         self.model.add(Activation('relu'))
 
+        self.model.add(Dropout(0.5))
+
         self.model.add(Dense(120))
         self.model.add(Activation('relu'))
+
+        self.model.add(Dropout(0.5))
 
         self.model.add(Dense(60))
         self.model.add(Activation('relu'))
