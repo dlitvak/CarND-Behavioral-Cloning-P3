@@ -37,7 +37,7 @@ class SteeringAnglePredictor:
         X_valid, y_valid = X[0:valid_len], y[0:valid_len]
         X_train, y_train = X[valid_len:], y[valid_len:]
 
-        self.nnModel.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
+        self.nnModel.compile(optimizer='adam', loss='mean_squared_error')
         history = self.nnModel.fit_generator(generator=self.DataSequence(X_train, y_train, self.batchSize) ,
                                              epochs=self.epochs, validation_data=self.DataSequence(X_valid, y_valid, self.batchSize),
                                              shuffle=True, verbose=2)
