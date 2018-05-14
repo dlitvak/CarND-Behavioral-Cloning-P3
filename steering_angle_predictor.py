@@ -2,7 +2,7 @@ from nvidia_pipeline import NvidiaNet
 from lenet import LeNet
 from keras.models import load_model
 from keras.utils import Sequence
-import matplotlib.image as mpimg
+
 from sklearn.utils import shuffle
 import numpy as np
 import math as m
@@ -29,8 +29,7 @@ class SteeringAnglePredictor:
             batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
             batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
-            return np.array([mpimg.imread(file_name) for file_name in batch_x]), \
-                np.array(batch_y)
+            return np.array(batch_x), np.array(batch_y)
 
     def train(self, X, y, overwriteModel=True):
         X, y = shuffle(X, y)
@@ -51,16 +50,16 @@ class SteeringAnglePredictor:
         if not self.modelLoaded:
             self.nnModel = load_model(self.modelFile)
 
-        # for i in range(len(X_test)):
-        #     pred = self.nnModel.predict(np.array([X_test[i]]), batch_size=1)
-        #     print("pred {}, real {}".format(pred, y_test[i]))
+        for i in range(len(X_test)):
+            pred = self.nnModel.predict(np.array([X_test[i]]), batch_size=1)
+            print("pred {}, real {}".format(pred, y_test[i]))
 
-        metrics = self.nnModel.evaluate(X_test, y_test)
-        for metric_i in range(len(self.nnModel.metrics_names)):
-            metric_name = self.nnModel.metrics_names[metric_i]
-            metric_value = metrics[metric_i]
-            print('{}: {}'.format(metric_name, metric_value))
-        return metrics
+        # metrics = self.nnModel.evaluate(X_test, y_test)
+        # for metric_i in range(len(self.nnModel.metrics_names)):
+        #     metric_name = self.nnModel.metrics_names[metric_i]
+        #     metric_value = metrics[metric_i]
+        #     print('{}: {}'.format(metric_name, metric_value))
+        # return metrics
 
     def quick_normalize_img_data(self, x):
         return np.ndarray.astype((x - 128.0) / 128.0, np.float32)
