@@ -18,7 +18,7 @@ X, y =  [], []
 imread = None
 for row in data:
     centerImgUrl = row[0]
-    if None == imread:
+    if imread is None:
         imread = mpimg.imread(DIR + centerImgUrl, format="RGB")
     X.append(DIR + centerImgUrl)
 
