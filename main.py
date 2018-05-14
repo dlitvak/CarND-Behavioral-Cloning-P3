@@ -9,8 +9,7 @@ from steering_angle_predictor import SteeringAnglePredictor
 DIR = "data/"
 CSV_FILE = "driving_log.csv"
 
-BATCH_SIZE = 128
-STEER_STEP = 0.02
+BATCH_SIZE = 64
 
 data = readFile(dir=DIR, csv_file=CSV_FILE, fieldNames=("center","steering"))
 # print (data)  #fieldNames=("center","left","right","steering")
@@ -26,7 +25,7 @@ for row in data:
     y.append(steering)
 
 X, y = np.array(X), np.array(y)
-sap = SteeringAnglePredictor(img_shape=imread.shape, model_file="lenet.h5", epochs=5)
+sap = SteeringAnglePredictor(img_shape=imread.shape, model_file="lenet.h5", epochs=5, batch_size=BATCH_SIZE)
 sap.train(X, y, overwriteModel=True)
 
 # sap.test(X, y)

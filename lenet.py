@@ -12,15 +12,18 @@ class LeNet:
         # normalize
         self.model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=img_shape))
 
-        # 160x320x3 to 78x158x24
+        # 160x320x3 to 158x318x6
         self.model.add(Convolution2D(6, kernel_size=3, strides=1, padding="valid"))
         self.model.add(Activation('relu'))
 
+        # to 154x314x16
         self.model.add(Convolution2D(16, kernel_size=5, strides=1, padding="valid"))
         self.model.add(Activation('relu'))
 
+        # to 77x157x16
         self.model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2), padding="same"))
 
+        # to 76x156x26
         self.model.add(Convolution2D(26, kernel_size=2, strides=1,  padding="valid"))
         self.model.add(Activation('relu'))
 
