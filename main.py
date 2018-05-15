@@ -7,7 +7,7 @@ from steering_angle_predictor import SteeringAnglePredictor
 
 
 BATCH_SIZE = 128
-EPOCHS = 10
+EPOCHS = 5
 
 X2, y2, img_shape = read_data(dir="col_data2")
 X3, y3, img_shape1 = read_data(dir="col_data4_rev")
@@ -18,9 +18,9 @@ y = np.hstack((y2, y3))
 X_train = np.hstack((X1, X))
 y_train = np.hstack((y1, y))
 
-sap = SteeringAnglePredictor(img_shape=img_shape, model_file="lenet_cumul_more_dropout.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet_cumul2_resized.h5")
+sap = SteeringAnglePredictor(img_shape=img_shape, model_file="lenet_no_lr_b128.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet_cumul_more_drp_b40.h5")
 sap.train(X, y, overwrite_model=True)
-#
-# sap.test(X[:300], y[:300])
+
+sap.test(X[:300], y[:300])
 
 
