@@ -33,7 +33,7 @@ class SteeringAnglePredictor:
             batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
             batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
-            img = Image.open('image.png').convert('LA')
+            # img = Image.open('image.png').convert('LA')
             return np.array([mpimg.imread(file_name) for file_name in batch_x]), np.array(batch_y)
 
     def train(self, X, y, overwrite_model=True):
