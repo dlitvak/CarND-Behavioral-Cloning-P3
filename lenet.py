@@ -23,14 +23,20 @@ class LeNet:
         # to 77x157x16
         self.model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2), padding="same"))
 
+        self.model.add(Dropout(0.3))
+
         # to 76x156x26
         self.model.add(Convolution2D(26, kernel_size=2, strides=1,  padding="valid"))
         self.model.add(Activation('relu'))
+
+        self.model.add(Dropout(0.3))
 
         self.model.add(Convolution2D(52, kernel_size=3, strides=1, padding="valid"))
         self.model.add(Activation('relu'))
 
         self.model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2), padding="same"))
+
+        self.model.add(Dropout(0.3))
 
         self.model.add(Flatten())
 
