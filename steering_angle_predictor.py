@@ -1,4 +1,3 @@
-from nvidia_pipeline import NvidiaNet
 from lenet import LeNet
 from keras.models import load_model
 from keras.utils import Sequence
@@ -9,6 +8,7 @@ import math as m
 
 import matplotlib.image as mpimg
 
+from PIL import Image
 
 class SteeringAnglePredictor:
     def __init__(self, img_shape=(160,320,3), model_file="lenet.h5",  prev_model=None, batch_size=128, epochs=5):
@@ -33,6 +33,7 @@ class SteeringAnglePredictor:
             batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
             batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
+            img = Image.open('image.png').convert('LA')
             return np.array([mpimg.imread(file_name) for file_name in batch_x]), np.array(batch_y)
 
     def train(self, X, y, overwrite_model=True):
