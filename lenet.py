@@ -1,7 +1,7 @@
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Flatten, Lambda, Dropout
 from keras.layers.pooling import MaxPool2D
-from keras.layers.convolutional import Convolution2D
+from keras.layers.convolutional import Convolution2D, Cropping2D
 
 
 class LeNet:
@@ -12,6 +12,7 @@ class LeNet:
         # normalize
         self.model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=img_shape))
 
+        # self.model.add(Cropping2D(cropping=((30, 10),(0, 0))))
         # 160x320x3 to 158x318x6
         self.model.add(Convolution2D(6, kernel_size=3, strides=1, padding="valid"))
         self.model.add(Activation('relu'))
