@@ -16,16 +16,16 @@ def read_data(dir="data", csv_file="driving_log.csv", field_names=("center","lef
     X, y = [], []
     img_shape = None
     for row in data:
-        centerImgUrl = row[0]
+        centerImgUrl = row[0].strip()
         X.append(os.path.join(dir, centerImgUrl))
         steering = row[3]
         y.append(steering)
 
-        leftImgUrl = row[1]
+        leftImgUrl = row[1].strip()
         X.append(os.path.join(dir, leftImgUrl))
         y.append(float(steering) - 0.2)
 
-        rightImgUrl = row[2]
+        rightImgUrl = row[2].strip()
         X.append(os.path.join(dir, rightImgUrl))
         y.append(float(steering) + 0.2)
 
