@@ -4,18 +4,40 @@ from PIL import Image
 import numpy as np
 import matplotlib.image as mpimg
 
-def readFile(dir="data/", csv_file="driving_log.csv", fieldNames=("center","left","right","steering")):
-    """Read data in the fieldNames from the csv_file (in directory dir)."""
 
+def read_data(dir="data", csv_file="driving_log.csv", field_names=("center","left","right","steering")):
+    """Read data from csv_file per field_names columns.  Obtain the image size."""
     data = []
-    with open(dir + csv_file) as f:
+    with open(os.path.join(dir, csv_file)) as f:
         csvReader = csv.DictReader(f)
         for row in csvReader:
-            data.append(list(row[k] for k in fieldNames))
+            data.append(list(row[k] for k in field_names))
 
-    return data
+    X, y = [], []
+    img_shape = None
+    for row in data:
+        centerImgUrl = row[0]
+        X.append(os.path.join(dir, centerImgUrl))
+        steering = row[3]
+        y.append(steering)
 
-def resize_images_in_dir(dir="data_/", img_dir="IMG"):
+        leftImgUrl = row[1]
+        X.append(os.path.join(dir, leftImgUrl))
+        y.append(float(steering) - 0.2)
+
+        rightImgUrl = row[2]
+        X.append(os.path.join(dir, rightImgUrl))
+        y.append(float(steering) + 0.2)
+
+        if img_shape is None:
+            im = mpimg.imread(os.path.join(dir, centerImgUrl), format="RGB")
+            img_shape = im.shape
+
+    return np.array(X), np.array(y), img_shape
+
+
+def resize_images_in_dir(dir="data", img_dir="IMG"):
+    """Function used to resize all the images in dir once."""
     os.chdir(dir)
     orig_dir = img_dir + "_orig"
     os.rename(img_dir, orig_dir)
