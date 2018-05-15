@@ -19,7 +19,7 @@ y = np.hstack((y2, y3))
 X = np.hstack((X1, X))
 y = np.hstack((y1, y))
 
-sap = SteeringAnglePredictor(img_shape=img_shape, model_file="test.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet_incr_drp.h5")
+sap = SteeringAnglePredictor(img_shape=img_shape, model_file="test_rev.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model=None)
 sap.train(X, y, overwrite_model=True)
 
 X, y = shuffle(X, y)

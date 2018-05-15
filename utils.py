@@ -23,11 +23,11 @@ def read_data(dir="data", csv_file="driving_log.csv", field_names=("center","lef
 
         leftImgUrl = row[1].strip()
         X.append(os.path.join(dir, leftImgUrl))
-        y.append(float(steering) + 0.2)
+        y.append(float(steering) - 0.2)
 
         rightImgUrl = row[2].strip()
         X.append(os.path.join(dir, rightImgUrl))
-        y.append(float(steering) - 0.2)
+        y.append(float(steering) + 0.2)
 
         if img_shape is None:
             im = mpimg.imread(os.path.join(dir, centerImgUrl), format="RGB")
