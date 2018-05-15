@@ -34,6 +34,7 @@ class SteeringAnglePredictor:
             batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
             # img = Image.open('image.png').convert('LA')
+            # np.asarray(img, dtype=np.uint8)
             return np.array([mpimg.imread(file_name) for file_name in batch_x]), np.array(batch_y)
 
     def train(self, X, y, overwrite_model=True):
@@ -55,13 +56,14 @@ class SteeringAnglePredictor:
         self.modelLoaded = True
         return history
 
-    def test(self, X_test, y_test):
+    def test(self, x, y):
         if not self.modelLoaded:
             self.nnModel = load_model(self.modelFile)
 
-        for i in range(len(X_test)):
-            pred = self.nnModel.predict(np.array([X_test[i]]), batch_size=1)
-            print("pred {}, real {}".format(pred, y_test[i]))
+        for i in range(len(x)):
+            im = mpimg.imread(x[i], format="RGB")
+            pred = self.nnModel.predict(im, batch_size=1)
+            print("pred {}, real {}".format(pred, y[i]))
 
         # metrics = self.nnModel.evaluate(X_test, y_test)
         # for metric_i in range(len(self.nnModel.metrics_names)):
