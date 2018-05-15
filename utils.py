@@ -30,3 +30,9 @@ def resize_images_in_dir(dir="data_/", img_dir="IMG"):
         img.thumbnail((img.size[0] / 2, img.size[1] / 2), Image.ANTIALIAS)  # resizes image in-place
         resized_img = np.asarray(img, dtype=np.uint8)
         mpimg.imsave(os.path.join(img_dir, img_name), resized_img)
+
+    os.chdir("..")
+
+# resize_images_in_dir(dir="data")
+# resize_images_in_dir(dir="col_data2")
+# resize_images_in_dir(dir="col_data4_rev")
