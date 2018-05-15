@@ -15,7 +15,7 @@ X1, y1, img_shape2 = read_data(dir="data")
 
 X = np.hstack((X2, X3))
 y = np.hstack((y2, y3))
-X_train = np.vstack((X1, X))
+X_train = np.hstack((X1, X))
 y_train = np.hstack((y1, y))
 
 sap = SteeringAnglePredictor(img_shape=img_shape, model_file="lenet_cumul2.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet_cumul.h5")
