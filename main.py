@@ -18,7 +18,7 @@ y = np.hstack((y2, y3))
 X_train = np.hstack((X1, X))
 y_train = np.hstack((y1, y))
 
-sap = SteeringAnglePredictor(img_shape=img_shape, model_file="lenet_cumul_orig.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model=None)
+sap = SteeringAnglePredictor(img_shape=img_shape, model_file="lenet_cumul_more_dropout.h5", epochs=EPOCHS, batch_size=BATCH_SIZE, prev_model="lenet_cumul2_resized.h5")
 sap.train(X, y, overwrite_model=True)
 #
 # sap.test(X[:300], y[:300])
