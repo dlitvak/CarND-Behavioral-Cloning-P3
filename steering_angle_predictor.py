@@ -62,7 +62,7 @@ class SteeringAnglePredictor:
 
         for i in range(len(x)):
             im = mpimg.imread(x[i], format="RGB")
-            pred = self.nnModel.predict(im, batch_size=1)
+            pred = self.nnModel.predict(np.array([im]), batch_size=1)
             print("pred {}, real {}".format(pred, y[i]))
 
         # metrics = self.nnModel.evaluate(X_test, y_test)
