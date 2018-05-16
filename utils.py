@@ -59,3 +59,5 @@ def resize_images_in_dir(dir="data", img_dir="IMG"):
 # resize_images_in_dir(dir="col_data2")
 # resize_images_in_dir(dir="col_data4_rev")
 # resize_images_in_dir(dir="col_data3")
+
+# resize_images_in_dir(dir="2nd_track1")

@@ -8,7 +8,6 @@ import math as m
 
 import matplotlib.image as mpimg
 
-from PIL import Image
 
 class SteeringAnglePredictor:
     def __init__(self, img_shape=(160,320,3), model_file="lenet.h5",  prev_model=None, batch_size=128, epochs=5):
@@ -23,7 +22,7 @@ class SteeringAnglePredictor:
 
     class DataSequence(Sequence):
         def __init__(self, x_set, y_set, batch_size):
-            self.x, self.y = x_set, y_set
+            self.x, self.y = shuffle(x_set, y_set)
             self.batch_size = batch_size
 
         def __len__(self):
@@ -33,15 +32,10 @@ class SteeringAnglePredictor:
             batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
             batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
 
-            # img = Image.open('image.png').convert('LA')
-            # np.asarray(img, dtype=np.uint8)
-            return np.array([mpimg.imread(file_name) for file_name in batch_x]), np.array(batch_y)
+            return shuffle(np.array([mpimg.imread(file_name) for file_name in batch_x]), np.array(batch_y))
 
     def train(self, X, y, overwrite_model=True):
-        X, y = shuffle(X, y)
-        valid_len = m.ceil(0.2*len(X))
-        X_valid, y_valid = X[0:valid_len], y[0:valid_len]
-        X_train, y_train = X[valid_len:], y[valid_len:]
+        X_train, X_valid, y_train, y_valid = self.train_validation_split(X, y)
 
         if self.prevModel is not None:
             self.nnModel = load_model(self.prevModel)
@@ -50,11 +44,18 @@ class SteeringAnglePredictor:
 
         history = self.nnModel.fit_generator(generator=self.DataSequence(X_train, y_train, self.batchSize) ,
                                              epochs=self.epochs, validation_data=self.DataSequence(X_valid, y_valid, self.batchSize),
-                                             shuffle=True, verbose=2)
+                                             shuffle=True, verbose=1)
 
         self.nnModel.save(filepath=self.modelFile, overwrite=overwrite_model)
         self.modelLoaded = True
         return history
+
+    def train_validation_split(self, X, y, valid_split=0.2):
+        X, y = shuffle(X, y)
+        valid_len = m.ceil(valid_split * len(X))
+        X_valid, y_valid = X[0:valid_len], y[0:valid_len]
+        X_train, y_train = X[valid_len:], y[valid_len:]
+        return X_train, X_valid, y_train, y_valid
 
     def test(self, x, y):
         if not self.modelLoaded:
