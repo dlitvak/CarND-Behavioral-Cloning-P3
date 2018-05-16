@@ -46,7 +46,7 @@ class SteeringAnglePredictor:
         if self.prevModel is not None:
             self.nnModel = load_model(self.prevModel)
 
-        self.nnModel.compile(optimizer='adam', loss='mean_squared_error')
+        self.nnModel.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
         history = self.nnModel.fit_generator(generator=self.DataSequence(X_train, y_train, self.batchSize) ,
                                              epochs=self.epochs, validation_data=self.DataSequence(X_valid, y_valid, self.batchSize),
