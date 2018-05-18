@@ -11,16 +11,12 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+####Left Recovery Image
+![Left Recovery Image](./examples/center_recoverry_img_left.jpg) 
+####Right Recovery Image
+![Right Recovery Image](./examples/center_recoverry_img_right.jpg)
+#### Center Image
+![Normal Center Image](./examples/center_normal_img.jpg)
 
 
 This writeup will explain the steps I took in order to complete the project.  Please refer to 
@@ -32,6 +28,38 @@ In addition to the previously used RELU Activation, MaxPool2D, Conv2D, Dense I a
 * As I was experiencing non-decreasing validation and decreasing training loss during training, I inserted lots of Dropout layers to deal with
 overfitting.
 See implementation [lenet.py](./lenet.py)
+
+My final model consisted of the following layers:
+
+| Layer         		|     Description	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Input/Lambda         	| 80x160x3 RGB image (resized)					| 
+| Cropping2D         	| cropping=((25, 10),(0, 0))     				| 
+| Convolution 3x3     	| 3x3 kernel, 1x1 stride, 6 filters             |
+| RELU					|												|
+| Convolution 5x5     	| 5x5 kernel, 1x1 stride, 16 filters        	|
+| RELU					|												|
+| Max pooling	      	| 2x2 pool, 2x2 stride             				|
+| Dropout   	      	| 50%            				                |
+| Convolution 2x2	    | 1x1 stride, VALID padding, 26 filters      	|
+| RELU					|												|
+| Dropout   	      	| 50%            				                |
+| Convolution 3x3	    | 1x1 stride, VALID padding, 52 filters      	|
+| RELU					|												|
+| Max pooling	      	| 2x2 pool, 2x2 stride             				|
+| Dropout   	      	| 50%            				                |
+| Flatten   	      	|             				                |
+| Fully connected 1		| size 400        								|
+| RELU					|												|
+| Dropout   	      	| 60%            				                |
+| Fully connected 2		| size 120        								|
+| RELU					|												|
+| Dropout   	      	| 60%            				                |
+| Fully connected 3		| size 60       								|
+| RELU					|												|
+| Dropout   	      	| 60%            				                |
+| Fully connected 4		| size 1       								|
+|						|												|
 
 In [SteeringAnglePredictor](./steering_angle_predictor.py), I used Adam optimizer, which adjusted the learning rate automatically.
 The only training parameters available to vary are BATCH_SIZE and number of EPOCHS in `model.py`
@@ -57,7 +85,7 @@ made the model drive worse.  So, I decided on the recovery data collection strat
 * 2nd_track1 - 2nd track run inclusing 3 laps of driving, 1 lap of recovery driving, 1 lap of smooth driving.
 
 I collected over 65K data points in addition to those provided by Udacity (70K total).  20% of the data were used to validate the results
-against over/underfitting during training.
+against over/underfitting during training.  I only used center camera images without flipping them.
 
 The model generalized well, as the car was almost able to finish the 2nd track.
 

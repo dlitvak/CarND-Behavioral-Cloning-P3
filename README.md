@@ -25,7 +25,7 @@ Run the following commands to create a virtual environment `ml` and install the 
 * `utils.py` - contains a method to read data from collected data/image directories.  Also I created a method to resize images 
 and save them to the file system; I was concerned with the training performance.  
 * `drive.py` - provided script to drive the car.  I added a line to resize images before predicting.
-* `model.h5` - a trained Keras model
+* `model.h5.zip` - a trained Keras model.  I zipped it due to github's puish size limit.  The file is 150 Mb unzipped.
 * `2nd_track.h5` - previous model from which I transferred learning to `model.h5`  
 * `writeiup_report.md` - markdown report
 * `video.mp4` - a video recording of the vehicle driving autonomously around the track one full lap
@@ -37,6 +37,7 @@ Running the project
 [Windows](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4419_windows-sim/windows-sim.zip)
 [Linux](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae46bb_linux-sim/linux-sim.zip)
 * Activate `ml` environment (above)
+* `unzip model.h5.zip`
 * Run `python drive.py model.h5`
 * Start the simulator and select the 1st track.  The model runs on the 2nd track as well, but it falls off at the end of the run.
 

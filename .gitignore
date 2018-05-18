@@ -10,3 +10,4 @@ video_recording/
 __pycache__/
 ml/
 mac_sim.app/
+model.h5
