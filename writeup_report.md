@@ -11,13 +11,6 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-#### Left Recovery Image
-![Left Recovery Image](./examples/center_recoverry_img_left.jpg) 
-#### Right Recovery Image
-![Right Recovery Image](./examples/center_recoverry_img_right.jpg)
-#### Center Image
-![Normal Center Image](./examples/center_normal_img.jpg)
-
 
 This writeup will explain the steps I took in order to complete the project.  Please refer to 
 [README](./README.md) for the list of the files and instructions on running the project.
@@ -86,6 +79,14 @@ made the model drive worse.  So, I decided on the recovery data collection strat
 
 I collected over 65K data points in addition to those provided by Udacity (70K total).  20% of the data were used to validate the results
 against over/underfitting during training.  I only used center camera images without flipping them.
+
+#### Left Recovery Image
+![Left Recovery Image](./examples/center_recoverry_img_left.jpg) 
+#### Right Recovery Image
+![Right Recovery Image](./examples/center_recoverry_img_right.jpg)
+#### Center Image
+![Normal Center Image](./examples/center_normal_img.jpg)
+
 
 The model generalized well, as the car was almost able to finish the 2nd track.
 
