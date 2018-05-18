@@ -11,9 +11,9 @@ The goals / steps of this project are the following:
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-####Left Recovery Image
+#### Left Recovery Image
 ![Left Recovery Image](./examples/center_recoverry_img_left.jpg) 
-####Right Recovery Image
+#### Right Recovery Image
 ![Right Recovery Image](./examples/center_recoverry_img_right.jpg)
 #### Center Image
 ![Normal Center Image](./examples/center_normal_img.jpg)
@@ -59,7 +59,7 @@ My final model consisted of the following layers:
 | RELU					|												|
 | Dropout   	      	| 60%            				                |
 | Fully connected 4		| size 1       								|
-|						|												|
+
 
 In [SteeringAnglePredictor](./steering_angle_predictor.py), I used Adam optimizer, which adjusted the learning rate automatically.
 The only training parameters available to vary are BATCH_SIZE and number of EPOCHS in `model.py`
